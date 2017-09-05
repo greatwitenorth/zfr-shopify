@@ -39,16 +39,6 @@ return [
             ],
         ],
 
-        'GetArticleCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/articles/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of articles (for all blogs)',
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
         'GetBlogArticles' => [
             'httpMethod'       => 'GET',
             'uri'              => 'admin/blogs/{blog_id}/articles.json',
@@ -58,24 +48,6 @@ return [
             'parameters'       => [
                 'blog_id' => [
                     'description' => 'Blog from which we need to extract articles',
-                    'location'    => 'uri',
-                    'type'        => 'integer',
-                    'required'    => true
-                ],
-            ],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetBlogArticleCount' => [
-            'httpMethod'    => 'GET',
-            'uri'           => 'admin/blogs/{blog_id}/articles/count.json',
-            'responseModel' => 'GenericModel',
-            'summary'       => 'Retrieve the number of articles (for a single blog)',
-            'parameters'    => [
-                'blog_id' => [
-                    'description' => 'Blog from which we need to count articles',
                     'location'    => 'uri',
                     'type'        => 'integer',
                     'required'    => true
@@ -425,16 +397,6 @@ return [
             ],
         ],
 
-        'GetCustomCollectionCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/custom_collections/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of custom collections',
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
         'GetCustomCollection' => [
             'httpMethod'       => 'GET',
             'uri'              => 'admin/custom_collections/{id}.json',
@@ -521,16 +483,6 @@ return [
             'responseModel'        => 'GenericModel',
             'summary'              => 'Retrieve a list of customers',
             'data'                 => ['root_key' => 'customers'],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetCustomerCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/customers/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of customers',
             'additionalParameters' => [
                 'location' => 'query',
             ],
@@ -662,6 +614,31 @@ return [
             ],
         ],
 
+        'UpdateCustomerAddress' => [
+            'httpMethod'    => 'PUT',
+            'uri'           => 'admin/customers/{customer_id}/addresses/{id}.json',
+            'responseModel' => 'GenericModel',
+            'summary'       => 'Modify a customer\'s address',
+            'data'          => ['root_key' => 'customer_address'],
+            'parameters'    => [
+                'id' => [
+                    'description' => 'Address ID',
+                    'location'    => 'uri',
+                    'type'        => 'integer',
+                    'required'    => true,
+                ],
+                'customer_id' => [
+                    'description' => 'Customer ID',
+                    'location'    => 'uri',
+                    'type'        => 'integer',
+                    'required'    => true,
+                ],
+            ],
+            'additionalParameters' => [
+                'location' => 'json',
+            ],
+        ],
+
         /**
          * --------------------------------------------------------------------------------
          * EVENTS RELATED METHODS
@@ -676,16 +653,6 @@ return [
             'responseModel'        => 'GenericModel',
             'summary'              => 'Retrieve a list of events',
             'data'                 => ['root_key' => 'events'],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetEventCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/events/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of events',
             'additionalParameters' => [
                 'location' => 'query',
             ],
@@ -727,24 +694,6 @@ return [
             'parameters'       => [
                 'order_id' => [
                     'description' => 'Order from which we need to extract fulfillments',
-                    'location'    => 'uri',
-                    'type'        => 'integer',
-                    'required'    => true
-                ],
-            ],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetFulfillmentCount' => [
-            'httpMethod'       => 'GET',
-            'uri'              => 'admin/orders/{order_id}/fulfillments/count.json',
-            'responseModel'    => 'GenericModel',
-            'summary'          => 'Retrieve the number of fulfillments',
-            'parameters'       => [
-                'order_id' => [
-                    'description' => 'Order from which we need to count fulfillments',
                     'location'    => 'uri',
                     'type'        => 'integer',
                     'required'    => true
@@ -882,16 +831,6 @@ return [
             'responseModel'        => 'GenericModel',
             'summary'              => 'Receive a list of all Gift Cards',
             'data'                 => ['root_key' => 'gift_cards'],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetGiftCardCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/gift_cards/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of gift cards',
             'additionalParameters' => [
                 'location' => 'query',
             ],
@@ -1095,16 +1034,6 @@ return [
             ],
         ],
 
-        'GetOrderCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/orders/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of orders',
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
         'GetOrder' => [
             'httpMethod'       => 'GET',
             'uri'              => 'admin/orders/{id}.json',
@@ -1136,6 +1065,25 @@ return [
                     'location'    => 'json',
                     'type'        => 'array',
                     'required'    => true,
+                ],
+            ],
+            'additionalParameters' => [
+                'location' => 'json',
+            ],
+        ],
+
+        'UpdateOrder' => [
+            'httpMethod'       => 'PUT',
+            'uri'              => 'admin/orders/{id}.json',
+            'responseModel'    => 'GenericModel',
+            'summary'          => 'Update an existing order',
+            'data'             => ['root_key' => 'order'],
+            'parameters'       => [
+                'id' => [
+                    'description' => 'Product ID',
+                    'location'    => 'uri',
+                    'type'        => 'integer',
+                    'required'    => true
                 ],
             ],
             'additionalParameters' => [
@@ -1208,16 +1156,6 @@ return [
             'responseModel'        => 'GenericModel',
             'summary'              => 'Retrieve a list of pages',
             'data'                 => ['root_key' => 'pages'],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetPageCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/pages/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of pages',
             'additionalParameters' => [
                 'location' => 'query',
             ],
@@ -1320,16 +1258,6 @@ return [
             ],
         ],
 
-        'GetProductCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/products/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of products',
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
         'GetProduct' => [
             'httpMethod'       => 'GET',
             'uri'              => 'admin/products/{id}.json',
@@ -1416,24 +1344,6 @@ return [
             'responseModel'    => 'GenericModel',
             'summary'          => 'Retrieve a list of product images',
             'data'             => ['root_key' => 'images'],
-            'parameters'       => [
-                'product_id' => [
-                    'description' => 'Product ID',
-                    'location'    => 'uri',
-                    'type'        => 'integer',
-                    'required'    => true
-                ],
-            ],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetProductImageCount' => [
-            'httpMethod'       => 'GET',
-            'uri'              => 'admin/products/{product_id}/images/count.json',
-            'responseModel'    => 'GenericModel',
-            'summary'          => 'Retrieve the number of images for a given product',
             'parameters'       => [
                 'product_id' => [
                     'description' => 'Product ID',
@@ -1765,16 +1675,6 @@ return [
             ],
         ],
 
-        'GetSmartCollectionCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/smart_collections/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of smart collections',
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
         'GetSmartCollection' => [
             'httpMethod'       => 'GET',
             'uri'              => 'admin/smart_collections/{id}.json',
@@ -1977,24 +1877,6 @@ return [
             ],
         ],
 
-        'GetProductVariantCount' => [
-            'httpMethod'       => 'GET',
-            'uri'              => 'admin/products/{product_id}/variants/count.json',
-            'responseModel'    => 'GenericModel',
-            'summary'          => 'Retrieve the number of variants for a given product',
-            'parameters'       => [
-                'product_id' => [
-                    'description' => 'Specific product ID',
-                    'location'    => 'uri',
-                    'type'        => 'integer',
-                    'required'    => true
-                ],
-            ],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
         'GetProductVariant' => [
             'httpMethod'       => 'GET',
             'uri'              => 'admin/variants/{id}.json',
@@ -2092,16 +1974,6 @@ return [
             ],
         ],
 
-        'GetRedirectCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/redirects/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of redirects',
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
         'GetRedirect' => [
             'httpMethod'       => 'GET',
             'uri'              => 'admin/redirects/{id}.json',
@@ -2184,6 +2056,98 @@ return [
          * --------------------------------------------------------------------------------
          * SCRIPT TAGS RELATED METHODS
          *
+         * DOC: https://help.shopify.com/api/reference/redirect
+         * --------------------------------------------------------------------------------
+         */
+        'GetRedirects' => [
+            'httpMethod'           => 'GET',
+            'uri'                  => 'admin/redirects.json',
+            'responseModel'        => 'GenericModel',
+            'summary'              => 'Retrieve a list of redirects',
+            'data'                 => ['root_key' => 'redirects'],
+            'additionalParameters' => [
+                'location' => 'query',
+            ],
+        ],
+        'GetRedirect' => [
+            'httpMethod'       => 'GET',
+            'uri'              => 'admin/redirects/{id}.json',
+            'responseModel'    => 'GenericModel',
+            'summary'          => 'Retrieve a specific redirect',
+            'data'             => ['root_key' => 'redirect'],
+            'parameters'       => [
+                'id' => [
+                    'description' => 'Redirect ID',
+                    'location'    => 'uri',
+                    'type'        => 'integer',
+                    'required'    => true
+                ],
+            ],
+            'additionalParameters' => [
+                'location' => 'query',
+            ],
+        ],
+        'CreateRedirect' => [
+            'httpMethod'       => 'POST',
+            'uri'              => 'admin/redirects.json',
+            'responseModel'    => 'GenericModel',
+            'summary'          => 'Create a redirect',
+            'data'             => ['root_key' => 'redirect'],
+            'parameters'       => [
+                'path' => [
+                    'description' => 'Path URL',
+                    'location'    => 'json',
+                    'type'        => 'string',
+                    'required'    => true
+                ],
+                'target' => [
+                    'description' => 'Target URL',
+                    'location'    => 'json',
+                    'type'        => 'string',
+                    'required'    => true
+                ],
+            ]
+        ],
+        'UpdateRedirect' => [
+            'httpMethod'       => 'PUT',
+            'uri'              => 'admin/redirects/{id}.json',
+            'responseModel'    => 'GenericModel',
+            'summary'          => 'Update an existing redirect',
+            'data'             => ['root_key' => 'redirect'],
+            'parameters'       => [
+                'path' => [
+                    'description' => 'Path URL',
+                    'location'    => 'json',
+                    'type'        => 'string',
+                    'required'    => true
+                ],
+                'target' => [
+                    'description' => 'Target URL',
+                    'location'    => 'json',
+                    'type'        => 'string',
+                    'required'    => true
+                ],
+            ]
+        ],
+        'DeleteRedirect' => [
+            'httpMethod'       => 'DELETE',
+            'uri'              => 'admin/redirects/{id}.json',
+            'responseModel'    => 'GenericModel',
+            'summary'          => 'Delete an existing redirect',
+            'parameters'       => [
+                'id' => [
+                    'description' => 'Redirect ID',
+                    'location'    => 'uri',
+                    'type'        => 'integer',
+                    'required'    => true
+                ]
+            ]
+        ],
+
+        /**
+         * --------------------------------------------------------------------------------
+         * SCRIPT TAGS RELATED METHODS
+         *
          * DOC: https://docs.shopify.com/api/scripttag
          * --------------------------------------------------------------------------------
          */
@@ -2194,16 +2158,6 @@ return [
             'responseModel'        => 'GenericModel',
             'summary'              => 'Retrieve a list of installed script tags',
             'data'                 => ['root_key' => 'script_tags'],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetScriptTagCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/script_tags/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of script tags',
             'additionalParameters' => [
                 'location' => 'query',
             ],
@@ -2318,24 +2272,6 @@ return [
             'parameters'    => [
                 'order_id' => [
                     'description' => 'Order from which we need to extract transactions',
-                    'location'    => 'uri',
-                    'type'        => 'integer',
-                    'required'    => true
-                ],
-            ],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetTransactionCount' => [
-            'httpMethod'    => 'GET',
-            'uri'           => 'admin/orders/{order_id}/transactions/count.json',
-            'responseModel' => 'GenericModel',
-            'summary'       => 'Retrieve the number of script tags',
-            'parameters'    => [
-                'order_id' => [
-                    'description' => 'Order from which we need to count transactions',
                     'location'    => 'uri',
                     'type'        => 'integer',
                     'required'    => true
@@ -2485,16 +2421,6 @@ return [
             'responseModel'        => 'GenericModel',
             'summary'              => 'Retrieve a list of webhooks',
             'data'                 => ['root_key' => 'webhooks'],
-            'additionalParameters' => [
-                'location' => 'query',
-            ],
-        ],
-
-        'GetWebhookCount' => [
-            'httpMethod'           => 'GET',
-            'uri'                  => 'admin/webhooks/count.json',
-            'responseModel'        => 'GenericModel',
-            'summary'              => 'Retrieve the number of webhooks',
             'additionalParameters' => [
                 'location' => 'query',
             ],
