@@ -18,14 +18,15 @@
 
 namespace ZfrShopifyTest\Container;
 
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use ZfrShopify\Exception\RuntimeException;
 use ZfrShopify\Container\ShopifyClientFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Michaël Gallego
  */
-class ShopifyClientFactoryTest extends \PHPUnit_Framework_TestCase
+class ShopifyClientFactoryTest extends TestCase
 {
     public function testThrowExceptionIfNoConfig()
     {
@@ -46,6 +47,7 @@ class ShopifyClientFactoryTest extends \PHPUnit_Framework_TestCase
         $container->get('config')->shouldBeCalled()->willReturn([
             'zfr_shopify' => [
                 'shop'          => 'example.myshopify.com',
+                'version'       => '2019-04',
                 'api_key'       => 'key',
                 'access_token'  => 'token',
                 'private_app'   => false

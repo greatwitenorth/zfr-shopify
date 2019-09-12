@@ -19,19 +19,42 @@
 namespace ZfrShopifyTest\Container;
 
 use Psr\Container\ContainerInterface;
-use ZfrShopify\Container\TokenExchangerFactory;
+use ZfrShopify\Exception\RuntimeException;
+use ZfrShopify\Container\ShopifyGraphQLClientFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Michaël Gallego
  */
-class TokenExchangerFactoryTest extends TestCase
+class ShopifyGraphQLClientFactoryTest extends TestCase
 {
-    public function testFactory()
+    public function testThrowExceptionIfNoConfig()
+    {
+        $this->expectException(RuntimeException::class);
+
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->shouldBeCalled()->willReturn(true);
+        $container->get('config')->shouldBeCalled()->willReturn([]);
+
+        $factory = new ShopifyGraphQLClientFactory();
+        $factory->__invoke($container->reveal());
+    }
+
+    public function testCanCreateService()
     {
         $container = $this->prophesize(ContainerInterface::class);
+        $container->has('config')->shouldBeCalled()->willReturn(true);
+        $container->get('config')->shouldBeCalled()->willReturn([
+            'zfr_shopify' => [
+                'shop'          => 'example.myshopify.com',
+                'version'       => '2019-04',
+                'api_key'       => 'key',
+                'access_token'  => 'token',
+                'private_app'   => false
+            ]
+        ]);
 
-        $factory = new TokenExchangerFactory();
+        $factory = new ShopifyGraphQLClientFactory();
         $factory->__invoke($container->reveal());
     }
 }

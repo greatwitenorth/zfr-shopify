@@ -19,7 +19,7 @@
 namespace ZfrShopify\Container;
 
 use GuzzleHttp\Client as HttpClient;
-use Interop\Container\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use ZfrShopify\OAuth\TokenExchanger;
 
 /**

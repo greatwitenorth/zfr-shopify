@@ -1,3 +1,64 @@
+# 5.3.0
+
+* Add collect endpoints
+
+# 5.2.0
+
+* Add blog count endpoint
+
+# 5.1.0
+
+* Add carrier service endpoints
+
+# 5.0.0
+
+* [BC] Add support for the new "version". You are now required to pass a version when creating a client (both admin
+  and GraphQL API).
+* Fix GraphQL doc
+
+# 4.2.0
+
+* Add blog methods
+
+# 4.1.0
+
+* Add draft order methods
+
+# 4.0.0
+
+* Remove unused dev dependency
+* Allow to use Zend Diactoros 2.x
+* Update dependency to use PSR-11 interfaces instead of container interop
+* Add access scopes methods
+* Add application charge methods
+* Add new webhooks
+* Add discount code and price rules methods
+* Provide a basic client for the new GraphQL API
+
+# 3.5.0
+
+* Add missing updateOrder method to the descriptor
+
+# 3.4.1
+
+* Fix an issue where additional parameters couldn't be pass when creating webhooks
+
+# 3.4.0
+
+* Add support for inventory levels
+
+# 3.3.2
+
+* Remove default argument for __call
+
+# 3.3.1
+
+* Fix an issue with the CreateUsageCharge command
+
+# 3.3.0
+
+* Add dedicated metafields namespace (`getArticleMetafields`...)
+
 # 3.2.0
 
 * Add a new `count` endpoint for each resource. For instance you can get the number of orders this way:

@@ -30,11 +30,12 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use ZfrShopify\Exception\RuntimeException;
 use ZfrShopify\ShopifyClient;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author Michaël Gallego
  */
-class ShopifyClientTest extends \PHPUnit_Framework_TestCase
+class ShopifyClientTest extends TestCase
 {
     public function validationData()
     {
@@ -62,6 +63,7 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'shop'        => 'test.myshopify.com',
+                    'version'     => '2019-04',
                     'api_key'     => 'key_123',
                     'private_app' => true,
                     'password'    => 'pass_123'
@@ -71,6 +73,7 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'shop'         => 'test.myshopify.com',
+                    'version'      => '2019-04',
                     'api_key'      => 'key_123',
                     'private_app'  => false,
                     'access_token' => 'token_123'
@@ -89,7 +92,8 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
             $this->expectException(RuntimeException::class);
         }
 
-        new ShopifyClient($data);
+        $shopifyClient = new ShopifyClient($data);
+        $this->assertInstanceOf(ShopifyClient::class, $shopifyClient);
     }
 
     public function testStopRetryingAfterFiveAttempts()
@@ -163,8 +167,9 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
         $client        = $this->getShopifyClientForPublicApp($serviceClient->reveal());
 
         $serviceClient->getCommand('GetShop', [
-            'fields' => 'id',
-            '@http' => [
+            'fields'  => 'id',
+            'version' => '2019-04',
+            '@http'   => [
                 'headers' => [
                     'X-Shopify-Access-Token' => 'token_123'
                 ]
@@ -180,8 +185,9 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
         $client        = $this->getShopifyClientForPrivateApp($serviceClient->reveal());
 
         $serviceClient->getCommand('GetShop', [
-            'fields' => 'id',
-            '@http' => [
+            'fields'  => 'id',
+            'version' => '2019-04',
+            '@http'   => [
                 'auth' => ['key', 'password_123']
             ]
         ])->shouldBeCalled()->willReturn($this->prophesize(CommandInterface::class)->reveal());
@@ -195,8 +201,9 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
         $client        = $this->getShopifyClientForPublicApp($serviceClient->reveal());
 
         $expectedArgs = [
-            'fields' => 'id,name',
-            '@http'  => [
+            'fields'  => 'id,name',
+            'version' => '2019-04',
+            '@http'   => [
                 'headers' => [
                     'X-Shopify-Access-Token' => 'token_123'
                 ]
@@ -231,8 +238,9 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
         $client        = $this->getShopifyClientForPrivateApp($serviceClient->reveal());
 
         $expectedArgs = [
-            'fields' => 'id,name',
-            '@http'  => [
+            'fields'  => 'id,name',
+            'version' => '2019-04',
+            '@http'   => [
                 'auth' => ['key', 'password_123']
             ]
         ];
@@ -263,6 +271,7 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
     {
         $options = [
             'shop'         => 'test.myshopify.com',
+            'version'      => '2019-04',
             'private_app'  => false,
             'access_token' => 'token_123',
             'api_key'      => 'key'
@@ -275,6 +284,7 @@ class ShopifyClientTest extends \PHPUnit_Framework_TestCase
     {
         $options = [
             'shop'         => 'test.myshopify.com',
+            'version'      => '2019-04',
             'private_app'  => true,
             'password'     => 'password_123',
             'api_key'      => 'key'

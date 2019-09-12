@@ -16,21 +16,24 @@
  * and is licensed under the MIT license.
  */
 
-namespace ZfrShopifyTest;
-
-use ZfrShopify\ConfigProvider;
-use PHPUnit\Framework\TestCase;
+namespace ZfrShopify\Exception;
 
 /**
- * @author Daniel Gimenes
+ * This exception is thrown when a GraphQL request contains user errors (like missing data on mutation)
+ *
+ * @author Michaël Gallego
  */
-final class ConfigProviderTest extends TestCase
+class GraphQLUserErrorException extends RuntimeException implements ExceptionInterface
 {
-    public function testProvidesContainerConfig()
-    {
-        $moduleConfig = new ConfigProvider();
-        $config       = $moduleConfig();
+    private $errors = [];
 
-        $this->assertArrayHasKey('dependencies', $config);
+    public function __construct(array $errors)
+    {
+        $this->errors = $errors;
+    }
+
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }

@@ -22,7 +22,6 @@ use Generator;
 use GuzzleHttp\Client;
 use GuzzleHttp\Command\CommandInterface;
 use GuzzleHttp\Command\Exception\CommandException;
-use GuzzleHttp\Command\Exception\CommandServerException;
 use GuzzleHttp\Command\Guzzle\Description;
 use GuzzleHttp\Command\Guzzle\GuzzleClient;
 use GuzzleHttp\Command\Guzzle\Serializer;
@@ -47,6 +46,17 @@ use ZfrShopify\Exception\RuntimeException;
  *
  * @author Michaël Gallego
  *
+ * ACCESS SCOPES METHODS:
+ *
+ * @method array getAccessScopes(array $args = []) {@command Shopify GetAccessScopes}
+ *
+ * APPLICATION CHARGE RELATED METHODS:
+ *
+ * @method array getApplicationCharges(array $args = []) {@command Shopify GetApplicationCharges}
+ * @method array getApplicationCharge(array $args = []) {@command Shopify GetApplicationCharge}
+ * @method array createApplicationCharge(array $args = []) {@command Shopify CreateApplicationCharge}
+ * @method array activateApplicationCharge(array $args = []) {@command Shopify ActivateApplicationCharge}
+ *
  * ARTICLE RELATED METHODS:
  *
  * @method array getArticles(array $args = []) {@command Shopify GetArticles}
@@ -54,6 +64,7 @@ use ZfrShopify\Exception\RuntimeException;
  * @method array getBlogArticles(array $args = []) {@command Shopify GetBlogArticles}
  * @method int getBlogArticleCount(array $args = []) {@command Shopify GetBlogArticleCount}
  * @method array getArticle(array $args = []) {@command Shopify GetArticle}
+ * @method array getArticleMetafields(array $args = []) {@command Shopify GetArticleMetafields}
  * @method array getBlogArticle(array $args = []) {@command Shopify GetBlogArticle}
  * @method array getArticlesAuthors(array $args = []) {@command Shopify GetArticlesAuthors}
  * @method array getArticlesTags(array $args = []) {@command Shopify GetArticlesTags}
@@ -72,6 +83,23 @@ use ZfrShopify\Exception\RuntimeException;
  * @method array updateAsset(array $args = []) {@command Shopify UpdateAsset}
  * @method array deleteAsset(array $args = []) {@command Shopify DeleteAsset}
  *
+ * BLOG RELATED METHODS:
+ *
+ * @method array getBlogs(array $args = []) {@command Shopify GetBlogs}
+ * @method array getBlogCount(array $args = []) {@command Shopify GetBlogCount}
+ * @method array getBlog(array $args = []) {@command Shopify GetBlog}
+ * @method array createBlog(array $args = []) {@command Shopify CreateBlog}
+ * @method array updateBlog(array $args = []) {@command Shopify UpdateBlog}
+ * @method array deleteBlog(array $args = []) {@command Shopify DeleteBlog}
+ *
+ * CARRIER SERVICE RELATED METHODS:
+ *
+ * @method array getCarrierServices(array $args = []) {@command Shopify GetCarrierServices}
+ * @method array getCarrierService(array $args = []) {@command Shopify GetCarrierService}
+ * @method array createCarrierService(array $args = []) {@command Shopify CreateCarrierService}
+ * @method array updateCarrierService(array $args = []) {@command Shopify UpdateCarrierService}
+ * @method array deleteCarrierService(array $args = []) {@command Shopify DeleteCarrierService}
+ *
  * CUSTOM COLLECTION RELATED METHODS:
  *
  * @method array getCustomCollections(array $args = []) {@command Shopify GetCustomCollections}
@@ -81,15 +109,32 @@ use ZfrShopify\Exception\RuntimeException;
  * @method array updateCustomCollection(array $args = []) {@command Shopify UpdateCustomCollection}
  * @method array deleteCustomCollection(array $args = []) {@command Shopify DeleteCustomCollection}
  *
+ * COLLECTS RELATED METHODS:
+ *
+ * @method array getCollects(array $args = []) {@command Shopify GetCollects}
+ * @method int getCollectCount(array $args = []) {@command Shopify GetCollectCount}
+ * @method array getCollect(array $args = []) {@command Shopify GetCollect}
+ * @method array createCollect(array $args = []) {@command Shopify CreateCollect}
+ * @method array updateCollect(array $args = []) {@command Shopify UpdateCollect}
+ * @method array deleteCollect(array $args = []) {@command Shopify DeleteCollect}
+ *
  * CUSTOMER RELATED METHODS:
  *
  * @method array getCustomers(array $args = []) {@command Shopify GetCustomers}
  * @method int getCustomerCount(array $args = []) {@command Shopify GetCustomerCount}
  * @method array searchCustomers(array $args = []) {@command Shopify SearchCustomers}
  * @method array getCustomer(array $args = []) {@command Shopify GetCustomer}
+ * @method array getCustomerMetafields(array $args = []) {@command Shopify GetCustomerMetafields}
  * @method array createCustomer(array $args = []) {@command Shopify CreateCustomer}
  * @method array updateCustomer(array $args = []) {@command Shopify UpdateCustomer}
  * @method array deleteCustomer(array $args = []) {@command Shopify DeleteCustomer}
+ *
+ * DISCOUNT CODE RELATED METHODS:
+ *
+ * @method array getDiscountCodes(array $args = []) {@command Shopify GetDiscountCodes}
+ * @method int getDiscountCode(array $args = []) {@command Shopify GetDiscountCode}
+ * @method array createDiscountCode(array $args = []) {@command Shopify CreateDiscountCode}
+ * @method array deleteDiscountCode(array $args = []) {@command Shopify DeleteDiscountCode}
  *
  * EVENTS RELATED METHODS:
  *
@@ -116,6 +161,27 @@ use ZfrShopify\Exception\RuntimeException;
  * @method array updateGiftCard(array $args = []) {@command Shopify CreateGiftCard}
  * @method array disableGiftCard(array $args = []) {@command Shopify DisableGiftCard}
  *
+ * INVENTORY ITEM RELATED METHODS:
+ *
+ * @method array getInventoryItems(array $args = []) {@command Shopify GetInventoryItems}
+ * @method array getInventoryItem(array $args = []) {@command Shopify GetInventoryItem}
+ * @method array updateInventoryItem(array $args = []) {@command Shopify UpdateInventoryItem}
+ *
+ * INVENTORY LEVEL RELATED METHODS
+ *
+ * @method array getInventoryLevels(array $args = []) {@command Shopify GetInventoryLevels}
+ * @method array adjustInventoryLevel(array $args = []) {@command Shopify AdjustInventoryLevel}
+ * @method array deleteInventoryLevel(array $args = []) {@command Shopify DeleteInventoryLevel}
+ * @method array connectInventoryLevel(array $args = []) {@command Shopify ConnectInventoryLevel}
+ * @method array setInventoryLevel(array $args = []) {@command Shopify SetInventoryLevel}
+ *
+ * LOCATION RELATED METHODS:
+ *
+ * @method array getLocations(array $args = []) {@command Shopify GetLocations}
+ * @method array getLocation(array $args = []) {@command Shopify GetLocation}
+ * @method int getLocationCount(array $args = []) {@command Shopify GetLocationCount}
+ * @method array getLocationInventoryLevels(array $args = []) {@command Shopify GetLocationInventoryLevels}
+ *
  * METAFIELDS RELATED METHODS:
  * 
  * @method array getMetafields(array $args = []) {@command Shopify GetMetafields}
@@ -131,24 +197,46 @@ use ZfrShopify\Exception\RuntimeException;
  * @method array createOrder(array $args = []) {@command Shopify CreateOrder}
  * @method array updateOrder(array $args = []) {@command Shopify UpdateOrder}
  * @method array getOrder(array $args = []) {@command Shopify GetOrder}
+ * @method array getOrderMetafields(array $args = []) {@command Shopify GetOrderMetafields}
  * @method array closeOrder(array $args = []) {@command Shopify CloseOrder}
  * @method array openOrder(array $args = []) {@command Shopify OpenOrder}
  * @method array cancelOrder(array $args = []) {@command Shopify CancelOrder}
+ *
+ * DRAFT ORDER RELATED METHODS:
+ *
+ * @method array getDraftOrders(array $args = []) {@command Shopify GetDraftOrders}
+ * @method int getDraftOrderCount(array $args = []) {@command Shopify GetDraftOrderCount}
+ * @method array createDraftOrder(array $args = []) {@command Shopify CreateDraftOrder}
+ * @method array updateDraftOrder(array $args = []) {@command Shopify UpdateDraftOrder}
+ * @method array getDraftOrder(array $args = []) {@command Shopify GetDraftOrder}
+ * @method array sendDraftOrderInvoice(array $args = []) {@command Shopify SendDraftOrderInvoice}
+ * @method array completeDraftOrder(array $args = []) {@command Shopify CompleteDraftOrder}
+ * @method array deleteDraftOrder(array $args = []) {@command Shopify DeleteDraftOrder}
  *
  * PAGE RELATED METHODS:
  *
  * @method array getPages(array $args = []) {@command Shopify GetPages}
  * @method int getPageCount(array $args = []) {@command Shopify GetPageCount}
  * @method array getPage(array $args = []) {@command Shopify GetPage}
+ * @method array getPageMetafields(array $args = []) {@command Shopify GetPageMetafields}
  * @method array createPage(array $args = []) {@command Shopify CreatePage}
  * @method array updatePage(array $args = []) {@command Shopify UpdatePage}
  * @method array deletePage(array $args = []) {@command Shopify DeletePage}
+ *
+ * PRICE RULE RELATED METHODS:
+ *
+ * @method array getPriceRules(array $args = []) {@command Shopify GetPriceRules}
+ * @method int getPriceRule(array $args = []) {@command Shopify GetPriceRule}
+ * @method array createPriceRule(array $args = []) {@command Shopify CreatePriceRule}
+ * @method array updatePriceRule(array $args = []) {@command Shopify UpdatePriceRule}
+ * @method array deletePriceRule(array $args = []) {@command Shopify DeletePriceRule}
  *
  * PRODUCT RELATED METHODS:
  *
  * @method array getProducts(array $args = []) {@command Shopify GetProducts}
  * @method int getProductCount(array $args = []) {@command Shopify GetProductCount}
  * @method array getProduct(array $args = []) {@command Shopify GetProduct}
+ * @method array getProductMetafields(array $args = []) {@command Shopify GetProductMetafields}
  * @method array createProduct(array $args = []) {@command Shopify CreateProduct}
  * @method array updateProduct(array $args = []) {@command Shopify UpdateProduct}
  * @method array deleteProduct(array $args = []) {@command Shopify DeleteProduct}
@@ -212,6 +300,7 @@ use ZfrShopify\Exception\RuntimeException;
  * @method array getProductVariants(array $args = []) {@command Shopify GetProductVariants}
  * @method int getProductVariantCount(array $args = []) {@command Shopify GetProductVariantCount}
  * @method array getProductVariant(array $args = []) {@command Shopify GetProductVariant}
+ * @method array getProductVariantMetafields(array $args = []) {@command Shopify GetProductVariantMetafields}
  * @method array createProductVariant(array $args = []) {@command Shopify CreateProductVariant}
  * @method array updateProductVariant(array $args = []) {@command Shopify UpdateProductVariant}
  * @method array deleteProductVariant(array $args = []) {@command Shopify DeleteProductVariant}
@@ -253,16 +342,20 @@ use ZfrShopify\Exception\RuntimeException;
  *
  * ITERATOR METHODS:
  *
+ * @method \Traversable getApplicationChargesIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetApplicationCharges}
  * @method \Traversable getArticlesIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetArticles}
  * @method \Traversable getBlogArticlesIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetBlogArticles}
  * @method \Traversable getCustomCollectionsIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetCustomCollections}
+ * @method \Traversable getCollectsIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetCollects}
  * @method \Traversable getCustomersIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetCustomersIterator}
+ * @method \Traversable getDiscountCodesIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetDiscountCodes}
  * @method \Traversable getEventsIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetEvents}
  * @method \Traversable getFulfillmentsIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetFulfillments}
  * @method \Traversable getGiftCardsIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetGiftCards}
  * @method \Traversable getMetafieldsIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetMetafields}
  * @method \Traversable getOrdersIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetOrders}
  * @method \Traversable getPagesIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetPages}
+ * @method \Traversable getPriceRulesIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetPriceRules}
  * @method \Traversable getProductsIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetProducts}
  * @method \Traversable getProductImagesIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetProductImages}
  * @method \Traversable getRecurringApplicationChargesIterator(array $commandArgs = [], array $iteratorArgs = []) {@command Shopify GetRecurringApplicationCharges}
@@ -307,6 +400,10 @@ class ShopifyClient
      */
     public function getCommand(string $method, $args = []): CommandInterface
     {
+        // Add the mandatory version
+
+        $args = array_merge($args, ['version' => $this->connectionOptions['version']]);
+
         // Add authentication parameters to each command based on the Shopify app type
 
         if ($this->connectionOptions['private_app']) {
@@ -373,7 +470,7 @@ class ShopifyClient
      * @param  array $args
      * @return array|Generator
      */
-    public function __call($method, $args = [])
+    public function __call($method, $args)
     {
         $args = $args[0] ?? [];
 
@@ -465,8 +562,8 @@ class ShopifyClient
      */
     private function validateConnectionOptions(array $connectionOptions)
     {
-        if (!isset($connectionOptions['shop'], $connectionOptions['api_key'], $connectionOptions['private_app'])) {
-            throw new RuntimeException('"shop", "private_app" and/or "api_key" must be provided when instantiating the Shopify client');
+        if (!isset($connectionOptions['shop'], $connectionOptions['version'], $connectionOptions['api_key'], $connectionOptions['private_app'])) {
+            throw new RuntimeException('"shop", "version", "private_app" and/or "api_key" must be provided when instantiating the Shopify client');
         }
 
         if ($connectionOptions['private_app'] && !isset($connectionOptions['password'])) {
